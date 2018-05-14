@@ -1,0 +1,183 @@
+{% extends 'main.html'%}
+
+{% block content%}
+	<!-- <p>{{data}}</p>
+	<p>{{info}}</p>
+	<p>{{process}}</p> -->
+
+
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">ALL</a></li>
+    <li><a href="#tabs-2">ROOMS</a></li>
+    <li><a href="#tabs-3">HALLS</a></li>
+  </ul>
+  <div id="tabs-1">
+  	<ul>
+	 {%for i in data%}
+    <li><a href="#" id="{{i}}" onclick="myfunc()" >{{i}}</a></li>
+    {%endfor%}
+  </ul>
+  </div>
+  <div id="tabs-2">
+    <ul>
+   {%for j in info%}
+    <li><a href="#" id="{{j}}" onclick="myfunc()">{{j}}</a></li>
+    {%endfor%}
+    </ul>
+
+    
+  </div>
+  <div id="tabs-3">
+    <ul>
+   {%for k in process%}
+    <li><a href="#"id="{{k}}" onclick="myfunc()">{{k}}</a></li>
+    {%endfor%}</ul>   
+  </div>
+</div>
+
+
+<!-- Popup  -->
+
+<div id="myPopupModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content" >
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <!-- <h2 id="getname" style="font-size:26px;"></h2> -->
+      <h2 id="getname" ></h2>
+    </div>
+    <div class="modal-body" id="modal_popup_data">  
+      <!-- <p id="getname">
+      </p> -->
+      <div class="vertical-menu">
+        <a href="#" onclick="dialogFunction()" id="getchair">CHAIRS</a>
+        <a href="#" onclick="dialogFunction()" id="getfan">FANS</a>
+        <a href="#" onclick="dialogFunction()" id="gettable">TABLES</a>
+        <a href="#"onclick="dialogFunction()" id="getlight">LIGHTS</a>        
+      </div>
+      
+    </div>
+
+  
+    <div class="modal-footer">
+      <h3>Modal Footer</h3>
+    </div>
+  </div>
+  <!-- Modal content -->
+  
+</div>
+
+<!-- Popup -->
+
+<!-- Dialog box -->
+
+<div id="dialog" title="Basic dialog">
+  <!-- <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p> -->
+  <!-- chips code -->
+<!-- Default with no input (automatically generated)  -->
+  <!-- <div class="chips"></div> -->
+  <!-- <div class="chips chips-initial"></div> -->
+  <div class="chips chips-placeholder"></div>
+  <!-- <div class="chips chips-autocomplete"></div> -->
+
+  <!-- Customizable input  -->
+  
+  <!-- chips code -->
+
+  <input type="button"id="getdone"style="float:right" onclick="func()" value="Done"> </input>
+
+</div>
+
+<!-- Dialog box -->
+<script type="text/javascript">
+$(document).ready(function() {
+var modal = document.getElementById('myPopupModal');
+      var span = document.getElementsByClassName("close")[0];
+
+     modal.style.display = "none";
+
+     span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+dialog=document.getElementById('dialog');
+dialog.style.display = "none";
+
+// chips code
+
+$('.chips').chips();
+  $('.chips-initial').chips({
+    data: [{
+      tag: 'Apple',
+    }, {
+      tag: 'Microsoft',
+    }, {
+      tag: 'Google',
+    }],
+  });
+  $('.chips-placeholder').chips({
+    placeholder: 'Enter a tag',
+    secondaryPlaceholder: '+Tag',
+  });
+  $('.chips-autocomplete').chips({
+    autocompleteOptions: {
+      data: {
+        'Apple': null,
+        'Microsoft': null,
+        'Google': null
+      },
+      limit: Infinity,
+      minLength: 1
+    }
+  });
+
+var chip = {
+    tag: 'chip content',
+    image: '', //optional
+  };
+// chip code
+
+
+
+});
+
+
+function myfunc(){
+  popupinfo=document.getElementById('myPopupModal');
+  // salert(popupinfo);
+  popupinfo.style.display="block";
+  // alert(event.target.id)
+
+  $("#getname").html() //getting data from this id 
+
+  $("#getname").html(event.target.id) //assigning or replacing data to this id
+}
+
+function dialogFunction(){
+
+
+
+  // debugger;
+  var getdataid = "#"+event.target.id;
+  var getdata = $(getdataid).text()
+  // $("getchars").text()//undefined
+  // $("#getchars").text()//get data
+
+
+  $( "#dialog" ).dialog(
+  {
+    resizable: true,
+    height:    300,
+    width:     500,
+    title: getdata
+    });
+  // $("#dialog").html(event.target.id)
+  
+}
+
+
+
+</script>
+{% endblock %}

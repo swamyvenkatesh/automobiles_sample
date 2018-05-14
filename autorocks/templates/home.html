@@ -1,0 +1,175 @@
+{% extends 'main.html'%}
+
+{% block content%}
+
+<div>
+  <input type="text" id="myInput" onkeyup="searchFunction()" placeholder="Search for names.." title="Type in a name">
+</div>
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">ALL</a></li>
+    <li><a href="#tabs-2">ROOMS</a></li>
+    <li><a href="#tabs-3">HALLS</a></li>
+  </ul>
+  <div id="tabs-1">
+  	<ul>    
+      {%for i in data%}
+      <li><a href="#" id="{{i}}" onclick="myfunc()" >{{i}}</a></li>
+      {%endfor%}   
+
+    </ul>
+  </div>
+  <div id="tabs-2">
+    <ul>
+   {%for j in info%}
+    <li><a href="#" id="{{j}}" onclick="myfunc()">{{j}}</a></li>
+    {%endfor%}
+    </ul>    
+  </div>
+  <div id="tabs-3">
+    <ul>
+   {%for k in process%}
+    <li><a href="#"id="{{k}}" onclick="myfunc()">{{k}}</a></li>
+    {%endfor%}</ul>   
+  </div>
+</div>
+
+
+<!-- Popup  -->
+
+<div id="myPopupModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content" >
+    <div class="modal-header">
+      <span class="close">&times;</span>      <h2 id="getname" ></h2>
+    </div>
+    <div class="modal-body" id="modal_popup_data">      
+      <div class="vertical-menu">
+        <a href="#" onclick="dialogFunction()" id="getchair">CHAIRS</a>
+        <a href="#" onclick="dialogFunction()" id="getfan">FANS</a>
+        <a href="#" onclick="dialogFunction()" id="gettable">TABLES</a>
+        <a href="#"onclick="dialogFunction()" id="getlight">LIGHTS</a>        
+      </div>      
+    </div>
+  
+    <div class="modal-footer">
+      <h3>Modal Footer</h3>
+    </div>
+  </div>
+  <!-- Modal content -->
+  
+</div>
+
+<!-- Popup -->
+
+<!-- Dialog box -->
+
+<div id="dialog" title="Basic dialog"> 
+  <!-- chips code --> 
+  <div class="chips chips-initial "></div> 
+  <input type="button"id="getdone"style="float:right"  class="btn btn-primary" value="Done"> </input>
+</div>
+
+<!-- Dialog box -->
+<script type="text/javascript">
+$(document).ready(function() {
+var modal = document.getElementById('myPopupModal');
+      var span = document.getElementsByClassName("close")[0];
+     modal.style.display = "none";
+     span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+dialog=document.getElementById('dialog');
+dialog.style.display = "none";
+
+});
+
+
+function myfunc(){
+  popupinfo=document.getElementById('myPopupModal');  
+  popupinfo.style.display="block";
+  $("#getname").html(event.target.id) 
+}
+
+function dialogFunction(){
+
+  // debugger;
+  var getdataid = "#"+event.target.id;
+  var getdata = $(getdataid).text()  
+
+  $.ajax({
+    type:"GET",
+    url:"/test/get/",
+    data:{"getinfo":getdata},
+    success:function(data1)
+      {        
+                
+        l1 = data1.values
+        var chips_list  =[]
+        for(var i in l1)
+        {          
+          chips_list.push({tag:l1[i]})          
+        }
+        // dialog box with dynamic title
+        $( "#dialog" ).dialog(
+        {
+          resizable: true,
+          height:    300,
+          width:     500,
+          title: data1.name
+        });
+      //  dynamic chips data from views
+        $('.chips-initial').chips({  
+
+          data:chips_list        
+          
+        });          
+            
+      }
+
+  }); 
+}
+
+//donebutton data in jquery //
+$('#getdone').click(function(){
+  var getchip = $(".chips-initial").text()  
+  dialogdataget=$(".ui-dialog-title").text()
+
+
+$.ajax({
+    type:"GET",
+    url:"/test/done/",
+    data:{"datainfo":getchip,"dialoginfo":dialogdataget},
+    success:function(senddata)
+      {        
+        dialog=document.getElementById('dialog');
+        dialog.style.display = "none";
+        // $(".ui-dialog ui-corner-all ui-widget ui-widget-content ui-front ui-draggable ui-resizable").removeProp("position");
+        // $('.ui-dialog ui-corner-all ui-widget ui-widget-content ui-front ui-draggable ui-resizable').removeStyle('position');
+        // dailog box close code
+        } 
+    });
+
+});
+//searchbuttonfunctionalityinjs//
+function searchFunction(){
+  searchdata=document.getElementById("myInput").value  
+  $.ajax({
+    type:"GET",
+    url:"/test/searchdet/",
+    data:{"searchinfo":searchdata},
+    success:function(search_result)
+      {     
+
+         $("#tabs-1").html(search_result.r_list)  
+        
+        } 
+  });
+
+
+}
+</script>
+
+{% endblock %}

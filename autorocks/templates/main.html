@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Autorocks</title> 
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css" type="text/css"> 
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery-ui.css" type="text/css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/modal_popup.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/materialize.min.css">
+   <script src="{{ STATIC_URL }}js/jquery-2.1.4.js"></script> 
+
+  <script src="{{ STATIC_URL }}js/materialize.min.js"></script>
+ <!-- <script src="{{ STATIC_URL }}js/jquery-1.12.4.js"></script> -->
+  <script src="{{ STATIC_URL }}js/jquery-ui.js"></script>
+  
+  
+  <script>
+  $( function() {
+    $( "#tabs" ).tabs();    
+
+
+  } );
+  </script>
+</head>
+<body>
+
+  {% block content%}
+  {% endblock %}
+
+
+ 
+</body>
+</html>
